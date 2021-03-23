@@ -137,47 +137,8 @@ if [ ! -z ${RUST_RCON_WEB+x} ]; then
 
 		# Start nginx (in the background)
 		echo "Starting web server.."
-		nginx
-		NGINX=$!
 		sleep 5
 	fi
-fi
-
-# Disable logrotate if "-logfile" is set in $RUST_STARTUP_COMMAND
-LOGROTATE_ENABLED=1
-RUST_STARTUP_COMMAND_LOWERCASE=`echo "$RUST_STARTUP_COMMAND" | sed 's/./\L&/g'`
-if [[ $RUST_STARTUP_COMMAND_LOWERCASE == *" -logfile "* ]]; then
-	LOGROTATE_ENABLED=0
-fi
-
-if [ "$LOGROTATE_ENABLED" = "1" ]; then
-	echo "Log rotation enabled!"
-
-	# Log to stdout by default
-	RUST_STARTUP_COMMAND="$RUST_STARTUP_COMMAND -logfile /dev/stdout"
-	echo "Using startup arguments: $RUST_SERVER_STARTUP_ARGUMENTS"
-
-	# Create the logging directory structure
-	if [ ! -d "/steamcmd/rust/logs/archive" ]; then
-		mkdir -p /steamcmd/rust/logs/archive
-	fi
-
-	# Set the logfile filename/path
-	DATE=`date '+%Y-%m-%d_%H-%M-%S'`
-	RUST_SERVER_LOG_FILE="/steamcmd/rust/logs/$RUST_SERVER_IDENTITY"_"$DATE.txt"
-
-	# Archive old logs
-	echo "Cleaning up old logs.."
-	mv /steamcmd/rust/logs/*.txt /steamcmd/rust/logs/archive | true
-else
-	echo "Log rotation disabled!"
-fi
-
-# Disable logging to stdout/stderr if "-logfile /dev/" is used
-STDLOG_ENABLED=1
-if [[ $RUST_STARTUP_COMMAND_LOWERCASE == *" -logfile /dev/"* ]]; then
-	echo "Disabling internal stdout/stderr logging!"
-	STDLOG_ENABLED=0
 fi
 
 # Start the scheduler (only if update checking is enabled)
@@ -194,11 +155,7 @@ echo "Starting Rust.."
 if [ "$RUST_SERVER_PORT" != "" ]; then
 	RUST_SERVER_PORT="+server.port $RUST_SERVER_PORT"
 fi
-if [ "$LOGROTATE_ENABLED" = "1" ]; then
-	unbuffer /steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.seed "$RUST_SERVER_SEED" +server.hostname "$RUST_SERVER_NAME" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.worldsize "$RUST_SERVER_WORLDSIZE" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" 2>&1 | grep --line-buffered -Ev '^\s*$|Filename' | tee $RUST_SERVER_LOG_FILE &
-elif [ "$STDLOG_ENABLED" = "1" ]; then
-	/steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.seed "$RUST_SERVER_SEED" +server.hostname "$RUST_SERVER_NAME" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.worldsize "$RUST_SERVER_WORLDSIZE" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" 2>&1 &
-elif [ "$RUST_SERVER_LEVEL_URL" == ""]
+if [ "$RUST_SERVER_LEVEL_URL" == ""]; then
 	/steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.seed "$RUST_SERVER_SEED" +server.hostname "$RUST_SERVER_NAME" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.worldsize "$RUST_SERVER_WORLDSIZE" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" &
 else
 	/steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.hostname "$RUST_SERVER_NAME" +server.levelurl "$RUST_SERVER_LEVEL_URL" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" &
@@ -206,8 +163,6 @@ fi
 
 child=$!
 wait "$child"
-
-pkill -f nginx
 
 echo "Exiting.."
 exit
