@@ -141,6 +141,7 @@ if [ ! -z ${RUST_RCON_WEB+x} ]; then
 	fi
 fi
 
+
 # Start the scheduler (only if update checking is enabled)
 if [ "$RUST_UPDATE_CHECKING" = "1" ]; then
 	echo "Starting scheduled task manager.."
@@ -155,7 +156,7 @@ echo "Starting Rust.."
 if [ "$RUST_SERVER_PORT" != "" ]; then
 	RUST_SERVER_PORT="+server.port $RUST_SERVER_PORT"
 fi
-if [ "$RUST_SERVER_LEVEL_URL" == ""]; then
+if [ "$RUST_SERVER_LEVEL_URL" == "" ]; then
 	/steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.seed "$RUST_SERVER_SEED" +server.hostname "$RUST_SERVER_NAME" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.worldsize "$RUST_SERVER_WORLDSIZE" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" &
 else
 	/steamcmd/rust/RustDedicated $RUST_STARTUP_COMMAND "$RUST_SERVER_PORT" +server.identity "$RUST_SERVER_IDENTITY" +server.hostname "$RUST_SERVER_NAME" +server.levelurl "$RUST_SERVER_LEVEL_URL" +server.url "$RUST_SERVER_URL" +server.headerimage "$RUST_SERVER_BANNER_URL" +server.description "$RUST_SERVER_DESCRIPTION" +server.maxplayers "$RUST_SERVER_MAXPLAYERS" +server.saveinterval "$RUST_SERVER_SAVE_INTERVAL" +app.port "$RUST_APP_PORT" &
