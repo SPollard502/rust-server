@@ -41,7 +41,7 @@ EXPOSE 28016
 EXPOSE 28082
 
 # Setup default environment variables for the server
-ENV RUST_SERVER_STARTUP_ARGUMENTS "-batchmode -load -nographics +server.secure 1"
+ENV RUST_SERVER_STARTUP_ARGUMENTS "-batchmode -load -nographics"
 ENV RUST_SERVER_IDENTITY "docker"
 ENV RUST_SERVER_PORT ""
 ENV RUST_SERVER_SEED "12345"
@@ -62,6 +62,7 @@ ENV RUST_OXIDE_UPDATE_ON_BOOT "1"
 ENV RUST_SERVER_WORLDSIZE "4250"
 ENV RUST_SERVER_MAXPLAYERS "500"
 ENV RUST_SERVER_SAVE_INTERVAL "120"
+ENV RUST_SERVER_EAC "1"
 
 # Define directories to take ownership of
 ENV CHOWN_DIRS "/app,/steamcmd"

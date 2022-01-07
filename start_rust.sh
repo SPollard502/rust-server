@@ -118,6 +118,8 @@ if [ "$RUST_START_MODE" = "1" ]; then
 	exit
 fi
 
+RUST_SERVER_STARTUP_ARGUMENTS = $(echo "$RUST_SERVER_STARTUP_ARGUMENTS +server.secure $RUST_SERVER_ENV")
+
 # Remove extra whitespace from startup command
 RUST_STARTUP_COMMAND=$(echo "$RUST_SERVER_STARTUP_ARGUMENTS" | tr -s " ")
 
