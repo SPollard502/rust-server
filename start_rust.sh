@@ -121,14 +121,7 @@ fi
 
 
 
-RUST_SERVER_STARTUP_ARGUMENTS = "${RUST_SERVER_STARTUP_ARGUMENTS} +server.eac ${RUST_SERVER_EAC} +server.encryption ${RUST_SERVER_EAC}"
-
-if [[$RUST_SERVER_EAC -gt 0]]
-then
-	RUST_SERVER_STARTUP_ARGUMENTS = "${RUST_SERVER_STARTUP_ARGUMENTS} +server.secure true"
-else
-	RUST_SERVER_STARTUP_ARGUMENTS = "${RUST_SERVER_STARTUP_ARGUMENTS} +server.secure false"
-fi
+RUST_SERVER_STARTUP_ARGUMENTS = "${RUST_SERVER_STARTUP_ARGUMENTS} +server.eac ${RUST_SERVER_EAC} +server.encryption ${RUST_SERVER_EAC} +server.secure ${RUST_SERVER_EAC}"
 
 # Remove extra whitespace from startup command
 RUST_STARTUP_COMMAND=$(echo "$RUST_SERVER_STARTUP_ARGUMENTS" | tr -s " ")
