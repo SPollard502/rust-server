@@ -117,11 +117,23 @@ if [ "$RUST_START_MODE" = "1" ]; then
 	echo "Exiting, start mode is 1.."
 	exit
 fi
++server.eac 0 +server.encryption 0 +server.secure false
 
-RUST_SERVER_STARTUP_ARGUMENTS = $(echo "$RUST_SERVER_STARTUP_ARGUMENTS +server.secure $RUST_SERVER_ENV")
+
+
+RUST_SERVER_STARTUP_ARGUMENTS = $(echo "$RUST_SERVER_STARTUP_ARGUMENTS +server.eac $RUST_SERVER_EAC +server.encryption $RUST_SERVER_EAC" +server.secure ")
+
+if [[$RUST_SERVER_EAC -gt 0]]
+then
+	RUST_SERVER_STARTUP_ARGUMENTS = $(echo "$RUST_SERVER_STARTUP_ARGUMENTS true")
+else
+	RUST_SERVER_STARTUP_ARGUMENTS = $(echo "$RUST_SERVER_STARTUP_ARGUMENTS false")
+fi
 
 # Remove extra whitespace from startup command
 RUST_STARTUP_COMMAND=$(echo "$RUST_SERVER_STARTUP_ARGUMENTS" | tr -s " ")
+
+echo "$RUST_SERVER_STARTUP_ARGUMENTS"
 
 # Add RCON support if necessary
 if [ ! -z ${RUST_RCON_PORT+x} ]; then
