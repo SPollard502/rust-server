@@ -15,9 +15,9 @@ services:
       RUST_SERVER_STARTUP_ARGUMENTS: "batchmode -load -nographics"
       RUST_SERVER_IDENTITY: "rust-server" # This must be unique to each server
       RUST_SERVER_PORT: "28015"
-      RUST_RCON_PORT: "50016"
-      RUST_APP_PORT: "50017"
-      RUST_RCON_PASSWORD: "zGHhpbXdrp4P"
+      RUST_RCON_PORT: "28016"
+      RUST_APP_PORT: "28017"
+      RUST_RCON_PASSWORD: "abc123"
       RUST_RCON_WEB: "1" # Use RCON
 
       # USE:
