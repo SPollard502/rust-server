@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  rust-server:
+    image: ogwhisper/rust-server:latest
+    restart: always
+    volumes:
+      - /mnt/myRustServer:/steamcmd/rust # Use a different directory per server
+    #  Env Variable>
+    ports:
+      - 28015:28015 # <Port Locally>:<RUST_SERVER_PORT  Enviroment Variable>
+      - 28016:28016 # <Port Locally>:<RUST_RCON_PORT    Enviroment Variable>
+      - 28017:28017 # <Port Locally>:<RUST_APP_PORT     Enviroment Variable>
+    environment:
+      RUST_SERVER_STARTUP_ARGUMENTS: "batchmode -load -nographics"
+      RUST_SERVER_IDENTITY: "rust-server" # This must be unique to each server
+      RUST_SERVER_PORT: "28015"
+      RUST_RCON_PORT: "50016"
+      RUST_APP_PORT: "50017"
+      RUST_RCON_PASSWORD: "zGHhpbXdrp4P"
+      RUST_RCON_WEB: "1" # Use RCON
+
+      # USE:
+      #   RUST_SERVER_SEED and RUST_SERVER_WORLDSIZE
+      #   OR
+      #   RUST_SERVER_LEVEL_URL
+      #
+      #   If not using, leave blank
+      RUST_SERVER_SEED:
+      RUST_SERVER_WORLDSIZE:
+      RUST_SERVER_LEVEL_URL:
+
+      RUST_SERVER_NAME: "RustyLynx.Com - test1"
+      RUST_SERVER_DESCRIPTION: "RustyLynx.Com test1, Developing the PVE game, Anything Possible"
+      RUST_SERVER_URL: "https://RustyLynx.Com"
+      RUST_SERVER_BANNER_URL: "http://i.imgur.com/ZJ0fFyN.png"
+      RUST_SERVER_MAXPLAYERS: "20"
+
+      RUST_SERVER_SAVE_INTERVAL: "180"
+      RUST_UPDATE_CHECKING: "0"
+      RUST_UPDATE_BRANCH: "public"
+      RUST_START_MODE: "0"
+      RUST_OXIDE_ENABLED: "1"
+      RUST_OXIDE_UPDATE_ON_BOOT: "1"
+      RUST_SERVER_EAC: "0"
+    deploy:
+      resources:
+        limits:
+          cpus: "8"
+          memory: 20G
+        reservations:
+          cpus: "1"
+          memory: 4G
+          
