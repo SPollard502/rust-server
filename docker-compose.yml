@@ -8,9 +8,14 @@ services:
       - /mnt/myRustServer:/steamcmd/rust # Use a different directory per server
     #  Env Variable>
     ports:
-      - 28015:28015 # <Port Locally>:<RUST_SERVER_PORT  Enviroment Variable>
-      - 28016:28016 # <Port Locally>:<RUST_RCON_PORT    Enviroment Variable>
-      - 28017:28017 # <Port Locally>:<RUST_APP_PORT     Enviroment Variable>
+      - 28015:28015/tcp # <Port Locally>:<RUST_SERVER_PORT  Enviroment Variable>
+      - 28015:28015/udp
+
+      - 28016:28016/tcp # <Port Locally>:<RUST_RCON_PORT    Enviroment Variable>
+      - 28016:28016/udp
+
+      - 28017:28017/tcp # <Port Locally>:<RUST_APP_PORT     Enviroment Variable>
+      - 28017:28017/udp
     environment:
       RUST_SERVER_STARTUP_ARGUMENTS: "batchmode -load -nographics"
       RUST_SERVER_IDENTITY: "rust-server" # This must be unique to each server
