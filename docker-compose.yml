@@ -30,10 +30,10 @@ services:
       RUST_SERVER_WORLDSIZE:
       RUST_SERVER_LEVEL_URL:
 
-      RUST_SERVER_NAME: "RustyLynx.Com - test1"
-      RUST_SERVER_DESCRIPTION: "RustyLynx.Com test1, Developing the PVE game, Anything Possible"
-      RUST_SERVER_URL: "https://RustyLynx.Com"
-      RUST_SERVER_BANNER_URL: "http://i.imgur.com/ZJ0fFyN.png"
+      RUST_SERVER_NAME: "My Rust Server"
+      RUST_SERVER_DESCRIPTION: ""
+      RUST_SERVER_URL: ""
+      RUST_SERVER_BANNER_URL: ""
       RUST_SERVER_MAXPLAYERS: "20"
 
       RUST_SERVER_SAVE_INTERVAL: "180"
